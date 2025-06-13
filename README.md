@@ -32,6 +32,16 @@ The JSON object contains the following fields (when applicable):
 }
 ```
 
+The JSON object is parsed by CloudWatch, allowing you to filter logs in CloudWatch Logs Insights. For example:
+
+```
+fields @timestamp, @message
+| filter level = 'ERROR'
+| filter exception.class = 'RuntimeException'
+| sort @timestamp desc
+| limit 1000
+```
+
 ## Installation
 
 > [!IMPORTANT]  
