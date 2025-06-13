@@ -19,7 +19,7 @@
         "monolog/monolog": "^3"
     },
     "require-dev": {
-        "phpunit/phpunit": "^11",
+        "phpunit/phpunit": "^10|^11",
         "mnapoli/hard-mode": "^0.3",
         "phpstan/phpstan": "^1"
     },
