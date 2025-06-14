@@ -15,31 +15,30 @@ use Throwable;
  */
 class CloudWatchFormatter extends NormalizerFormatter
 {
-    public function format(LogRecord $record): string
+    public function format(LogRecord|array $record): string
     {
-        $level = strtoupper($record->level->name);
-        // Make sure everything is kept on one line to count as one record
-        $message = str_replace(["\r\n", "\r", "\n"], ' ', $record->message);
+        $level = strtoupper($record['level_name'] ?? $record['level']['name']);
+        $message = str_replace(["\r\n", "\r", "\n"], ' ', $record['message']);
         $json = $this->toJson($this->normalizeRecord($record), true);
 
         return "$level\t$message\t$json\n";
     }
 
-    public function formatBatch(array $records): string
+    public function formatBatch(LogRecord|array $records): string
     {
-        return implode('', array_map(fn (LogRecord $record) => $this->format($record), $records));
+        return implode('', array_map(fn ($record) => $this->format($record), $records));
     }
 
     /**
      * @return array<array|bool|float|int|\stdClass|string|null>
      */
-    protected function normalizeRecord(LogRecord $record): array
+    protected function normalizeRecord(LogRecord|array $record): array
     {
         $data = [
-            'message' => $record->message,
-            'level' => strtoupper($record->level->name),
+            'message' => $record['message'],
+            'level' => strtoupper($record['level_name'] ?? $record['level']['name']),
         ];
-        $context = $record->context;
+        $context = $record['context'];
         // Move any exception to the root
         $exception = $context['exception'] ?? null;
         if ($exception instanceof Throwable) {
@@ -49,8 +48,8 @@ class CloudWatchFormatter extends NormalizerFormatter
         if ($context !== []) {
             $data['context'] = $context;
         }
-        if ($record->extra !== []) {
-            $data['extra'] = $record->extra;
+        if ($record['extra'] !== []) {
+            $data['extra'] = $record['extra'];
         }
 
         return $this->normalize($data);

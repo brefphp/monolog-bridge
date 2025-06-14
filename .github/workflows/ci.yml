@@ -14,10 +14,10 @@ jobs:
         timeout-minutes: 15
         strategy:
             matrix:
-                php: [ '8.1', '8.2', '8.3', '8.4' ]
+                php: [ '8.0', '8.1', '8.2', '8.3', '8.4' ]
                 dependency-version: [ '' ]
                 include:
-                    -   php: '8.1'
+                    -   php: '8.0'
                         dependency-version: '--prefer-lowest'
         steps:
             -   uses: actions/checkout@v4
