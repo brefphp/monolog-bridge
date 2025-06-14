@@ -1,5 +1,7 @@
 This repository provides a **Monolog log formatter optimized for AWS Lambda and CloudWatch**.
 
+Read all about logs [in the Bref documentation](https://bref.sh/docs/environment/logs).
+
 ---
 
 Logs will be formatted to combine readability and structured data, making it easy to both read logs and filter them. Here's an example of a log record:
