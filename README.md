@@ -7,16 +7,10 @@ Read all about logs [in the Bref documentation](https://bref.sh/docs/environment
 Logs will be formatted to combine readability and structured data, making it easy to both read logs and filter them. Here's an example of a log record:
 
 ```
-INFO   This is a log message   {"message":"This is a log message","level":"INFO"}
-```
-
-On AWS Lambda with Bref, each line starts with the request ID of the current invocation, like the logs of Lambda's native runtimes:
-
-```
 8f507cfc-8b35-4e7e-9f26-f2a3a6e7e1a2   INFO   This is a log message   {"message":"This is a log message","level":"INFO"}
 ```
 
-CloudWatch Logs Insights reads it as the `@requestId` field, like in Lambda's `START`, `END` and `REPORT` lines: `filter @requestId = '8f507cfc-...'` shows all the logs of an invocation.
+This follows the standard format used by official AWS Lambda runtimes. For example the initial request ID is recognized by CloudWatch so that `filter @requestId = '8f507cfc-...'` shows all the logs of a single request/invocation.
 
 The JSON object contains the following fields (when applicable):
 
