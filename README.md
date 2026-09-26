@@ -66,7 +66,7 @@ provider:
         LOG_STDERR_FORMATTER: Bref\Monolog\CloudWatchFormatter
 ```
 
-For Symfony applications, Bref's [Symfony bridge](https://bref.sh/docs/symfony/getting-started) (`Bref\SymfonyBridge\BrefBundle`) sets this formatter on all Monolog handlers that don't have a formatter. To set it on a handler explicitly, use the `bref.cloudwatch_formatter` service that the bundle registers, for example in `config/packages/prod/monolog.yaml`:
+For Symfony applications, Bref's [Symfony bridge](https://bref.sh/docs/symfony/getting-started) (`Bref\SymfonyBridge\BrefSymfonyBridgeBundle`) sets this formatter on all Monolog handlers that don't have a formatter. To set it on a handler explicitly, use the `bref.cloudwatch_formatter` service that the bundle registers, for example in `config/packages/prod/monolog.yaml`:
 
 ```yaml
 monolog:
