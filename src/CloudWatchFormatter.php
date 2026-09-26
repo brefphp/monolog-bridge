@@ -20,8 +20,16 @@ class CloudWatchFormatter extends NormalizerFormatter
         $level = strtoupper($record['level_name'] ?? $record['level']['name']);
         $message = str_replace(["\r\n", "\r", "\n"], ' ', $record['message']);
         $json = $this->toJson($this->normalizeRecord($record), true);
+        $line = "$level\t$message\t$json\n";
 
-        return "$level\t$message\t$json\n";
+        // Bref sets the ID of the current Lambda invocation. Lambda's own runtimes start their lines with it:
+        // CloudWatch Logs Insights reads it as `@requestId`, like in Lambda's START, END and REPORT lines.
+        $requestId = $_SERVER['LAMBDA_REQUEST_ID'] ?? null;
+        if (is_string($requestId) && $requestId !== '') {
+            return "$requestId\t$line";
+        }
+
+        return $line;
     }
 
     public function formatBatch(LogRecord|array $records): string
