@@ -63,6 +63,21 @@ class CloudWatchFormatterTest extends TestCase
         $this->assertStringStartsWith('INFO	Test message	{"message":"Test message","level":"INFO","exception":{"class":"Exception","message":"Test error","code":0,"file":', $this->getLogs());
     }
 
+    public function test lines start with the Lambda request ID(): void
+    {
+        $_SERVER['LAMBDA_REQUEST_ID'] = '8f507cfc-8b35-4e7e-9f26-f2a3a6e7e1a2';
+        try {
+            $this->logger->info('Test message');
+        } finally {
+            unset($_SERVER['LAMBDA_REQUEST_ID']);
+        }
+
+        $this->assertEquals("8f507cfc-8b35-4e7e-9f26-f2a3a6e7e1a2\tINFO\tTest message\t" . json_encode([
+            'message' => 'Test message',
+            'level' => 'INFO',
+        ], JSON_THROW_ON_ERROR) . "\n", $this->getLogs());
+    }
+
     private function getLogs(): string
     {
         rewind($this->logs);
