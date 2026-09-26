@@ -18,7 +18,9 @@ class CloudWatchFormatterTest extends TestCase
     {
         parent::setUp();
         $this->logger = new Logger('default');
-        $this->logs = fopen('php://memory', 'wb+');
+        $logs = fopen('php://memory', 'wb+');
+        $this->assertIsResource($logs);
+        $this->logs = $logs;
         $handler = new StreamHandler($this->logs);
         $handler->setFormatter(new CloudWatchFormatter);
         $this->logger->pushHandler($handler);

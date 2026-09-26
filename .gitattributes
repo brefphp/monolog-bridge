@@ -5,6 +5,7 @@ tests/ export-ignore
 .gitignore export-ignore
 .phpcs.xml export-ignore
 phpunit.xml export-ignore
+phpstan.neon export-ignore
 
 # Auto detect text files and perform LF normalization
 * text=auto
