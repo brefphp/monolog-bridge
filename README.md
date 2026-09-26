@@ -58,7 +58,7 @@ composer require bref/monolog-bridge
 
 ## Usage
 
-For Laravel applications, set the following environment variable in `serverless.yml`:
+For Laravel applications, Bref's [Laravel bridge](https://bref.sh/docs/laravel/getting-started) sets this formatter on the `stderr` channel by default. Without the bridge, set the following environment variable in `serverless.yml`:
 
 ```yaml
 provider:
@@ -66,15 +66,16 @@ provider:
         LOG_STDERR_FORMATTER: Bref\Monolog\CloudWatchFormatter
 ```
 
-For Symfony applications, set the Bref Monolog formatter in your `config/packages/prod/monolog.yaml`:
+For Symfony applications, Bref's [Symfony bridge](https://bref.sh/docs/symfony/getting-started) (`Bref\SymfonyBridge\BrefBundle`) sets this formatter on all Monolog handlers that don't have a formatter. To set it on a handler explicitly, use the `bref.cloudwatch_formatter` service that the bundle registers, for example in `config/packages/prod/monolog.yaml`:
 
 ```yaml
 monolog:
     handlers:
         file:
             type: stream
+            path: php://stderr
             level: info
-            formatter: 'Bref\Monolog\CloudWatchFormatter'
+            formatter: bref.cloudwatch_formatter
 ```
 
 For other applications, you can set the formatter in your Monolog configuration. For example:
